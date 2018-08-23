@@ -50,7 +50,7 @@ public class BackendLoginController {
 
         String sessionKaptchaCode = (String) httpServletRequest.getSession().getAttribute(CommonConstant.VERIFY_CODE);
         //验证码校验.
-        if(!kaptchaCode.equals(sessionKaptchaCode)){
+        if(!kaptchaCode.toLowerCase().equals(sessionKaptchaCode)){
             return JSONObject.toJSONString(new ResultDTO(ErrorCodeEnum.ERROR_KAPTCHACODE.code,
                     ErrorCodeEnum.ERROR_KAPTCHACODE.message));
         }
@@ -76,7 +76,7 @@ public class BackendLoginController {
         ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
         try {
             //生产验证码字符串并保存到session中
-            String createText = defaultKaptcha.createText();
+            String createText = defaultKaptcha.createText().toLowerCase();
             httpServletRequest.getSession().setAttribute(CommonConstant.VERIFY_CODE, createText);
             //使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
             BufferedImage challenge = defaultKaptcha.createImage(createText);
