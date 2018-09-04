@@ -1,5 +1,6 @@
 package com.sea.common.cache.redis;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -59,6 +60,11 @@ public class RedisUtil {
      */
     public boolean exists(final String key) {
         return redisTemplate.hasKey(key);
+    }
+
+    public Integer getInteger(final String key){
+        String value = get(key);
+        return NumberUtils.toInt(value);
     }
     /**
      * 读取缓存

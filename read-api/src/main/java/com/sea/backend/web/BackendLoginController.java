@@ -7,6 +7,7 @@ import com.sea.backend.service.AdminUserService;
 import com.sea.common.cache.redis.RedisUtil;
 import com.sea.common.constants.CommonConstant;
 import com.sea.common.constants.ErrorCodeEnum;
+import com.sea.common.utils.DesUtils;
 import com.sea.model.dto.ResultDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,10 @@ public class BackendLoginController {
     @Autowired
     private AdminUserService adminUserService;
 
+    private  static int KAPCHA_CODE_MAX_CHECK= 5;
+
+    private static final String KAPCHA_CODE_MAX_CHECK_KEY = "KAPCHA_CODE_MAX_CHECK";
+
 
     @RequestMapping("/doLogin")
     public String doLogin(@RequestParam String username,
@@ -48,14 +53,22 @@ public class BackendLoginController {
                               @RequestParam String kaptchaCode,
                               HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
 
+        Integer value = redisUtil.getInteger(KAPCHA_CODE_MAX_CHECK_KEY);
+        if(value >= KAPCHA_CODE_MAX_CHECK){
+            return  JSONObject.toJSONString(new ResultDTO(ErrorCodeEnum.ERROR_KAPTCHACODE_CHECK_MAX.code,
+                    ErrorCodeEnum.ERROR_KAPTCHACODE_CHECK_MAX.message));
+        }
         String sessionKaptchaCode = (String) httpServletRequest.getSession().getAttribute(CommonConstant.VERIFY_CODE);
         //验证码校验.
         if(!kaptchaCode.toLowerCase().equals(sessionKaptchaCode)){
+            redisUtil.set(KAPCHA_CODE_MAX_CHECK_KEY,value+1);
             return JSONObject.toJSONString(new ResultDTO(ErrorCodeEnum.ERROR_KAPTCHACODE.code,
                     ErrorCodeEnum.ERROR_KAPTCHACODE.message));
         }
 
         AdminUser adminUser = adminUserService.queryAdminUserByUsername(username);
+
+        password = DesUtils.getInstance().encrypt(password);
         if(adminUser == null || !password.equals(adminUser.getPassword())){
             return JSONObject.toJSONString(new ResultDTO(ErrorCodeEnum.ERROR_USERNAME.code,
                     ErrorCodeEnum.ERROR_USERNAME.message));
@@ -71,6 +84,8 @@ public class BackendLoginController {
 
     @RequestMapping("/defaultKaptcha")
     public void defaultKaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception{
+
+        redisUtil.remove(KAPCHA_CODE_MAX_CHECK_KEY);
 
         byte[] captchaChallengeAsJpeg = null;
         ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();

@@ -12,6 +12,7 @@ public enum ErrorCodeEnum {
     EXCEPION("-12","未知错误:"),
     ERROR_KAPTCHACODE("-13","登录失败,验证码校验失败."),
     ERROR_USERNAME("-14","登录失败,用户名密码错误."),
+    ERROR_KAPTCHACODE_CHECK_MAX("-15","验证码超过上限,请重新获取验证码."),
 
     ERROR_400("-2","400错误.");
 
