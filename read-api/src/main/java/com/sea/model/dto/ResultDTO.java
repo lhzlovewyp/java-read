@@ -31,9 +31,19 @@ public class ResultDTO<T> implements Serializable{
      */
     private T rtnData;
 
+    public ResultDTO(){
+
+    }
+
     public ResultDTO(String rtnCode,String rtnMsg){
         this.rtnCode = rtnCode;
         this.rtnMsg = rtnMsg;
+    }
+
+    public ResultDTO(String rtnCode,String rtnMsg,T rtnData){
+        this.rtnCode = rtnCode;
+        this.rtnMsg = rtnMsg;
+        this.rtnData = rtnData;
     }
 
     public String getRtnCode() {

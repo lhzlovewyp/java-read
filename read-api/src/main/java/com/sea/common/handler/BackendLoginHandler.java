@@ -1,7 +1,10 @@
 package com.sea.common.handler;
 
 import com.sea.common.cache.redis.RedisUtil;
+import com.sea.common.constants.CommonConstant;
 import com.sea.common.constants.LoginConstant;
+import com.sea.common.utils.CookieUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -31,10 +34,15 @@ public class BackendLoginHandler implements HandlerInterceptor {
 
 
         if(isNeedLogin(requestUrl)){
-            String token = request.getHeader("token");
+
+            String token = CookieUtils.getCookie(request,"token");
+
+            if(StringUtils.isEmpty(token)){
+                throw new BackendLoginException("当前请求需要登录.");
+            }
 
             //当前未登录.
-            Object obj = redisUtil.get("token");
+            Object obj = redisUtil.get(token);
             if(obj == null){
                 throw new BackendLoginException("当前请求需要登录.");
             }

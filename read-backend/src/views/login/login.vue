@@ -75,11 +75,11 @@ export default {
           doLoginAction(qs.stringify(this.loginForm))
             .then(response => {
               this.loading = false
-              if (response && response.data && response.data.rtnCode === '0') {
+              if (response && response.rtnCode === '0') {
                 // 登录成功.
-                this.$router.push({ path: '/index' })
+                this.$router.push({ path: '/' })
               } else {
-                errorAlert(this, response.data.rtnMsg)
+                errorAlert(this, response.rtnMsg)
               }
             })
             .catch(() => {

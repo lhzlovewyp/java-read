@@ -28,7 +28,16 @@ service.interceptors.request.use(config => {
 
 // respone interceptor
 service.interceptors.response.use(
-  response => response,
+  response => {
+    const status = response.data.rtnCode
+    if(status === '-1'){
+      location.href='/#/login'
+      return
+    }else{
+      return response.data
+    }
+
+  },
   /**
    * 下面的注释为通过在response里，自定义code来标示请求状态
    * 当code返回如下情况则说明权限有问题，登出并返回到登录页

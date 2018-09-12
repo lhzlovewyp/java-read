@@ -1,27 +1,24 @@
 package com.sea.common.core;
 
+import com.sea.common.constants.ErrorCodeEnum;
+import com.sea.model.dto.ResultDTO;
+
 /**
  * 响应结果生成工具
  */
 public class ResultGenerator {
     private static final String DEFAULT_SUCCESS_MESSAGE = "SUCCESS";
 
-    public static Result genSuccessResult() {
-        return new Result()
-                .setCode(ResultCode.SUCCESS)
-                .setMessage(DEFAULT_SUCCESS_MESSAGE);
+    public static ResultDTO genSuccessResult() {
+        return new ResultDTO(ErrorCodeEnum.LOGIN_SUCCESS.code,ErrorCodeEnum.LOGIN_SUCCESS.message);
     }
 
-    public static <T> Result<T> genSuccessResult(T data) {
-        return new Result()
-                .setCode(ResultCode.SUCCESS)
-                .setMessage(DEFAULT_SUCCESS_MESSAGE)
-                .setData(data);
+    public static <T> ResultDTO<T> genSuccessResult(T data) {
+        return new ResultDTO(ErrorCodeEnum.LOGIN_SUCCESS.code,ErrorCodeEnum.LOGIN_SUCCESS.message,data);
+
     }
 
-    public static Result genFailResult(String message) {
-        return new Result()
-                .setCode(ResultCode.FAIL)
-                .setMessage(message);
+    public static ResultDTO genFailResult(String message) {
+        return new ResultDTO(ErrorCodeEnum.NEED_PARAMS.code,message);
     }
 }

@@ -7,7 +7,9 @@ import com.sea.backend.service.AdminUserService;
 import com.sea.common.cache.redis.RedisUtil;
 import com.sea.common.constants.CommonConstant;
 import com.sea.common.constants.ErrorCodeEnum;
+import com.sea.common.utils.CookieUtils;
 import com.sea.common.utils.DesUtils;
+import com.sea.common.utils.IpUtil;
 import com.sea.model.dto.ResultDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by lvhaizhen on 2018/7/24.
@@ -76,6 +80,16 @@ public class BackendLoginController {
 
         //把用户信息写入到session中.
         httpServletRequest.getSession().setAttribute(CommonConstant.ADMIN_USER,adminUser);
+
+        String token = UUID.randomUUID().toString();
+        redisUtil.set(token,adminUser,60 * 60 * 1000L);
+
+        adminUser.setLoginIp(IpUtil.getIpAddr(httpServletRequest));
+        adminUser.setLastLoginTime(new Date());
+
+        adminUserService.update(adminUser);
+
+        CookieUtils.addCookie(httpServletResponse,"token",token,60 * 60 * 1000,true);
 
         return JSONObject.toJSONString(new ResultDTO(ErrorCodeEnum.LOGIN_SUCCESS.code,
                 ErrorCodeEnum.LOGIN_SUCCESS.message));

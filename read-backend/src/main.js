@@ -10,10 +10,11 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './icons' // icon
 import '@/styles/index.scss' // global css
-import '@/assets/custom-theme/index.css'
+// import '@/assets/custom-theme/index.css'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+Vue.use(require('vue-moment')); 
 
 document.body.className = 'custom-theme'
 
