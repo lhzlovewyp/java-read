@@ -35,6 +35,17 @@ export default new Router({
         meta: { title: '后台用户管理', icon: 'dashboard', noCache: true }
       }],
       component: Index
+    },
+    {
+      path: '',
+      redirect: 'category',
+      children: [{
+        path: 'category',
+        component: () => import('@/views/category/index'),
+        name: 'category',
+        meta: { title: '类目管理', icon: 'component', noCache: true }
+      }],
+      component: Index
     }
 
   ]

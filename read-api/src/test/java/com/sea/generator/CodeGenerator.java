@@ -57,7 +57,7 @@ public class CodeGenerator {
 
     public static void main(String[] args) {
         //genCode("输入表名");
-        genCodeByCustomModelName("r_admin_user","AdminUser");
+        genCodeByCustomModelName("r_category","Category");
     }
 
     /**

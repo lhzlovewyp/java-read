@@ -11,6 +11,14 @@ const data = {
     delete: interfaceDomain + 'backend/adminUser/delete',
     updateStatus: interfaceDomain + 'backend/adminUser/updateStatus',
 
+  },
+  category:{
+    list: interfaceDomain + 'backend/category/list',
+    add: interfaceDomain + 'backend/category/add',
+    update: interfaceDomain + 'backend/category/update',
+    delete: interfaceDomain + 'backend/category/delete',
+    updateStatus: interfaceDomain + 'backend/category/updateStatus',
+
   }
 }
 

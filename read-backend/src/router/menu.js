@@ -19,7 +19,7 @@ const menuMap = [
     hidden: false,
     meta: {
       title: '用户管理',
-      icon: 'documentation'
+      icon: 'people'
     },
     children: [
       {
@@ -28,7 +28,7 @@ const menuMap = [
         hidden: false,
         meta: {
           title: '后台用户管理',
-          icon: 'documentation'
+          icon: 'people'
         }
       },
       {
@@ -38,6 +38,36 @@ const menuMap = [
         meta: {
           title: '前台用户管理',
           icon: 'documentation'
+        }
+      }
+    ]
+
+  },
+  {
+    name: '读书管理',
+    path: '/',
+    hidden: false,
+    meta: {
+      title: '内容管理',
+      icon: 'documentation'
+    },
+    children: [
+      {
+        name: '分类管理',
+        path: '/category',
+        hidden: false,
+        meta: {
+          title: '分类管理',
+          icon: 'component'
+        }
+      },
+      {
+        name: '书籍管理',
+        path: '/book',
+        hidden: false,
+        meta: {
+          title: '书籍管理',
+          icon: 'list'
         }
       }
     ]

@@ -48,9 +48,13 @@ public class ${modelNameUpperCamel}Controller {
     }
 
     @PostMapping("/list")
-    public ResultDTO list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
+    public ResultDTO list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size,${modelNameUpperCamel} ${modelNameLowerCamel}) {
         PageHelper.startPage(page, size);
-        List<${modelNameUpperCamel}> list = ${modelNameLowerCamel}Service.findAll();
+
+        Condition condition = new Condition(${modelNameUpperCamel}.class);
+        Example.Criteria criteria = condition.createCriteria();
+
+        List<${modelNameUpperCamel}> list = ${modelNameLowerCamel}Service.findByCondition(condition);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
