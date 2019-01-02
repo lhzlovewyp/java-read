@@ -46,6 +46,17 @@ export default new Router({
         meta: { title: '类目管理', icon: 'component', noCache: true }
       }],
       component: Index
+    },
+    {
+      path: '',
+      redirect: 'test',
+      children: [{
+        path: 'test',
+        component: () => import('@/views/test/index'),
+        name: 'test',
+        meta: { title: '类目管理', icon: 'component', noCache: true }
+      }],
+      component: Index
     }
 
   ]

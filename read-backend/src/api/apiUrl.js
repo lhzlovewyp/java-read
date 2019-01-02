@@ -16,9 +16,7 @@ const data = {
     list: interfaceDomain + 'backend/category/list',
     add: interfaceDomain + 'backend/category/add',
     update: interfaceDomain + 'backend/category/update',
-    delete: interfaceDomain + 'backend/category/delete',
-    updateStatus: interfaceDomain + 'backend/category/updateStatus',
-
+    delete: interfaceDomain + 'backend/category/delete'
   }
 }
 

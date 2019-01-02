@@ -17,7 +17,8 @@
           <i v-if="!scope.row._expanded" class="el-icon-plus"></i>
           <i v-else class="el-icon-minus"></i>
         </span>
-        {{scope.row[column.value]}}
+        <span v-if="column.filter">{{column.filter(scope.row[column.value]) }}</span>
+        <span v-else>{{scope.row[column.value]}}</span>
       </template>
     </el-table-column>
     <slot></slot>
@@ -30,6 +31,7 @@
   Created: 2018/1/19-13:59
 */
 import treeToArray from './eval'
+import Vue from 'vue'
 export default {
   name: 'treeTable',
   props: {
@@ -46,7 +48,8 @@ export default {
     expandAll: {
       type: Boolean,
       default: false
-    }
+    },
+    loadChildrenFunc:Function
   },
   computed: {
     // 格式化数据源
@@ -70,12 +73,20 @@ export default {
     },
     // 切换下级是否展开
     toggleExpanded: function(trIndex) {
-      const record = this.formatData[trIndex]
-      record._expanded = !record._expanded
+      let record = this.formatData[trIndex]
+      if(!record.children || record.children.length < 1){
+        if(this.loadChildrenFunc){
+          this.loadChildrenFunc(record).then(res => {
+            Vue.set(record,'children', res)
+          })
+        }
+      }
+      record._expanded = !record._expanded      
     },
     // 图标显示
     iconShow(index, record) {
-      return (index === 0 && record.children && record.children.length > 0)
+      //return (index === 0 && record.children && record.children.length > 0)
+      return index ===0 && record.hasChildren
     }
   }
 }

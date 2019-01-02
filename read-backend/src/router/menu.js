@@ -39,6 +39,15 @@ const menuMap = [
           title: '前台用户管理',
           icon: 'documentation'
         }
+      },
+      {
+        name: 'test',
+        path: '/test',
+        hidden: false,
+        meta: {
+          title: 'test',
+          icon: 'documentation'
+        }
       }
     ]
 
